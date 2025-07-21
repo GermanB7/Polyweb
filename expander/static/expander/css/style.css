@@ -1,62 +1,140 @@
+/* Tipografía general */
 body {
-  font-family: sans-serif;
-  margin: 2rem;
-  background: #f0f4f8;
-}
-
-h1 {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f4f7fa;
   color: #333;
+  margin: 0;
+  padding: 0;
 }
 
+/* Contenedor principal */
+.container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* Título */
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #222;
+}
+
+/* Formulario */
 form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
   margin-bottom: 2rem;
 }
 
-form div {
-  margin-bottom: 1rem;
-}
-
-input[type="text"] {
-  width: 100%;
-  max-width: 400px;
-  font-size: 1rem;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.errors {
-  color: #b00020;
-  margin-top: 0.5rem;
-}
-
-button {
-  font-size: 1rem;
-  padding: 0.5rem 1rem;
-  border: none;
-  background: #007acc;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #005fa3;
-}
-
-.result {
-  margin-top: 2rem;
-  padding: 1rem;
-  border: 1px solid #ccc;
-  background: white;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.result code {
+/* Label encima del input */
+form label {
   display: block;
-  background: #eef;
-  padding: 0.5rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+/* Input estilizado */
+form input[type="text"] {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  transition: border-color .2s ease-in-out, box-shadow .2s ease-in-out;
+}
+
+form input[type="text"]:focus {
+  border-color: #5b8def;
+  box-shadow: 0 0 0 3px rgba(91, 141, 239, .2);
+  outline: none;
+}
+
+/* Botón con gradiente */
+form button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg,#6c63ff,#5b8def);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform .1s ease, box-shadow .1s ease;
+}
+
+form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+form button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Spinner dentro del botón */
+.spinner-border {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Tarjeta de resultado */
+#result-container .card {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+#result-container .card-body {
+  padding: 1.5rem;
+}
+
+#result-container h5 {
   margin-bottom: 1rem;
+  color: #333;
+}
+
+/* Raw LaTeX */
+#result-container pre {
+  background: #fafaff;
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: 0.95rem;
+  color: #d63384;
+}
+
+/* Resultado renderizado */
+#result-container .mathjax-display {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/* Mensajes de error */
+.text-danger {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}
+
+/* Tabla de historial */
+.table {
+  margin-top: 2rem;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.table th, .table td {
+  vertical-align: middle;
+}
+
+.table code {
+  background: #f0f0ff;
+  padding: 0.2rem 0.4rem;
   border-radius: 4px;
+  font-size: 0.9rem;
 }

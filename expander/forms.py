@@ -5,8 +5,9 @@ class ExpandForm(forms.Form):
         label="Fórmula",
         max_length=200,
         widget=forms.TextInput(attrs={
+            "class": "form-control",
             "placeholder": "(x+1)*(x-1)",
-            "size": "40",
+            "id": "id_expression",
         }),
     )
 

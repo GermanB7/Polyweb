@@ -1,0 +1,15 @@
+{% if form.non_field_errors %}
+  <div class="errors">{{ form.non_field_errors }}</div>
+{% endif %}
+
+{% if result %}
+  <div class="result">
+    <h2>Resultado:</h2>
+    <code>{{ result }}</code>
+    <p>\[ {{ result }} \]</p>
+  </div>
+{% endif %}
+
+{% if form.field_errors %}
+  {{ form.expression.errors }}
+{% endif %}
