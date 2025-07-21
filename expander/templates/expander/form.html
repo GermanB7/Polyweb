@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Expansor de Polinomios</title>
+
+  <!-- CSS estático -->
+  <link rel="stylesheet" href="{% static 'expander/css/style.css' %}">
+
+  <!-- Configuración de MathJax -->
+  <script src="{% static 'expander/js/mathjax-config.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+  <h1>Expansor de Polinomios</h1>
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div>
+      {{ form.expression.label_tag }}
+      {{ form.expression }}
+      {% if form.expression.errors %}
+        <div class="errors">{{ form.expression.errors }}</div>
+      {% endif %}
+    </div>
+    <button type="submit">Expandir</button>
+  </form>
+
+  {% if result %}
+    <div class="result">
+      <h2>Resultado:</h2>
+      <!-- LaTeX en crudo -->
+      <code>{{ result }}</code>
+      <!-- Renderizado por MathJax -->
+      <p>\[ {{ result }} \]</p>
+    </div>
+  {% endif %}
+</body>
+</html>
