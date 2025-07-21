@@ -2,19 +2,20 @@ from __future__ import annotations
 from dataclasses import dataclass
 from collections import defaultdict
 from .term import Term
+from .fraction import Fraction
 
 @dataclass
 class Polynomial:
     terms: list[Term]
 
     def __post_init__(self):
-        grouped: dict[tuple[tuple[str,int],...], int] = defaultdict(int)
+        grouped: dict[tuple[tuple[str,int],...], Fraction] = defaultdict(lambda: Fraction(0, 1))
         for t in self.terms:
             key = tuple(sorted((v,e) for v,e in t.exponents.items() if e!=0))
-            grouped[key] += t.coeff
+            grouped[key] = grouped[key] + t.coeff
         self.terms = [
             Term(coeff, dict(key))
-            for key, coeff in grouped.items() if coeff!=0
+            for key, coeff in grouped.items() if not coeff.is_zero()
         ]
         self.terms.sort(key=lambda t: (-sum(t.exponents.values()), tuple(sorted(t.exponents.items()))))
 

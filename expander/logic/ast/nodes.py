@@ -10,6 +10,13 @@ class Const(Node):
         return f"Const({self.value})"
 
 @dataclass(frozen=True)
+class Frac(Node):
+    numerator: int
+    denominator: int
+    def __repr__(self) -> str:
+        return f"Frac({self.numerator}, {self.denominator})"
+
+@dataclass(frozen=True)
 class Var(Node):
     name: str
     def __repr__(self) -> str:

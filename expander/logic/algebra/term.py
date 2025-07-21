@@ -1,9 +1,10 @@
 from __future__ import annotations
 from dataclasses import dataclass
+from .fraction import Fraction
 
 @dataclass(frozen=True)
 class Term:
-    coeff: int
+    coeff: Fraction
     exponents: dict[str,int]  # ej: {'x':2, 'y':1}
 
     def __repr__(self) -> str:

@@ -1,13 +1,13 @@
 import re
 from typing import List, Optional
-from expander.logic.ast.nodes import Node, Const, Var, Add, Mul, Pow
+from expander.logic.ast.nodes import Node, Const, Frac, Var, Add, Mul, Pow
 
 class Token:
     def __init__(self, type:str, value:str):
         self.type = type; self.value = value
     def __repr__(self): return f"Token({self.type!r},{self.value!r})"
 
-_TOKEN = re.compile(r"\s*(?:(\d+)|([A-Za-z]+)|(\^|\*|\+|\-|\(|\)))")
+_TOKEN = re.compile(r"\s*(?:(\d+)|([A-Za-z]+)|(\^|\*|\+|\-|\(|\)|/))")
 
 class Parser:
     def __init__(self, text:str):
@@ -72,10 +72,44 @@ class Parser:
             raise SyntaxError("EOF en base")
         if tok.type=="INT":
             self._next()
-            return Const(int(tok.value))
+            num_value = int(tok.value)
+            
+            # Verificar si hay una fracción (siguiente token es "/")
+            if (next_tok := self._peek()) and next_tok.type == "/":
+                self._next()  # consumir "/"
+                denom_tok = self._peek()
+                if not denom_tok or denom_tok.type != "INT":
+                    raise SyntaxError("Se esperaba entero como denominador")
+                self._next()  # consumir denominador
+                return Frac(num_value, int(denom_tok.value))
+            else:
+                return Const(num_value)
+                
         if tok.type=="VAR":
             self._next()
-            return Var(tok.value)
+            var_node = Var(tok.value)
+            
+            # Verificar si hay una fracción después de la variable (x/2)
+            if (next_tok := self._peek()) and next_tok.type == "/":
+                self._next()  # consumir "/"
+                denom_tok = self._peek()
+                if not denom_tok or denom_tok.type != "INT":
+                    raise SyntaxError("Se esperaba entero como denominador")
+                self._next()  # consumir denominador
+                # Crear (1/denominador) * variable
+                frac_node = Frac(1, int(denom_tok.value))
+                return Mul(frac_node, var_node)
+            else:
+                return var_node
+                
+        if tok.type=="(":
+            self._next()
+            n = self._expr()
+            if not self._peek() or self._peek().type!=")":
+                raise SyntaxError("Falta ')' ")
+            self._next()
+            return n
+        raise SyntaxError(f"Token inesperado {tok}")
         if tok.type=="(":
             self._next()
             n = self._expr()
